@@ -1,0 +1,122 @@
+CREATE DATABASE Ria_Enterprise;
+USE Ria_Enterprise;
+CREATE TABLE Employee (
+    EmpID INT PRIMARY KEY,
+    EmpName VARCHAR(50) NOT NULL,
+    Position VARCHAR(50),
+    HireDate DATE,
+    Salary DECIMAL(10,2)
+);
+CREATE TABLE Product (
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR(50) NOT NULL,
+    Quantity INT NOT NULL,
+    MfgDate DATE,
+    ExpDate DATE
+);
+
+
+CREATE TABLE Customer (
+    CustomerID INT PRIMARY KEY,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    City VARCHAR(50),
+    LoyaltyPoints INT
+);
+
+CREATE TABLE Orders (
+    OrderID INT primary key,
+    CustomerID INT,
+    ProductID INT,
+    EmpID INT,
+    OrderDate DATE,
+    Quantity INT,
+    
+    CONSTRAINT fk_Customer_ID
+    FOREIGN KEY (CustomerID)
+    REFERENCES Customer(CustomerID),
+    
+    constraint fk_ProductID
+    FOREIGN KEY (ProductID)
+    REFERENCES Product(ProductID),
+    
+    constraint fk_EmpID
+    FOREIGN KEY (EmpID) 
+    REFERENCES Employee(EmpID)
+);
+
+#drop table Orders;
+CREATE TABLE Branches(
+	Branch_id int,
+	Branch_name varchar(100),
+	Branch_location varchar(100)
+);
+
+INSERT INTO Employee (EmpID, EmpName, Position, HireDate, Salary) VALUES
+(200, 'Keizia Ofori', 'Project Manager', '2020-09-03', 4000),
+(300, 'Derrick Amponsah', 'Marketing Manager', '2020-03-08', 3000),
+(400, 'Stephen Dadzie', 'Accountant', '2019-05-07', 4000),
+(500, 'Eric Adams', 'Attendant', '2021-09-08', 5000),
+(600, 'Vida Eddens', 'Attendant', '2022-09-07', 6000);
+
+
+INSERT INTO Product (ProductID, ProductName, Quantity, MfgDate, ExpDate) VALUES
+(1, 'Cereals', 50, '2022-09-08', '2025-10-09'),
+(2, 'Beverages', 400, '2023-04-03', '2027-06-04'),
+(3, 'Rice', 300, '2020-02-02', '2028-12-17'),
+(4, 'Water', 60, '2021-04-09', '2026-11-18'),
+(5, 'Tin Foods', 400, '2024-10-14', '2027-08-04');
+
+Insert into Customer 
+values
+	(1,"Ebah","Baidoo","Tarkwa",70),
+    (2,"Suzy"," Hayford","Tarkoradi",80),
+    (3,"Frank","Denty","Kumasi",90),
+    (4,"Mary"," Hagan","Sunyani",70),
+    (5,"Rita","Baffour","Sefewi-Bibiani",99);
+
+INSERT INTO Orders (OrderID, CustomerID, ProductID, EmpID, OrderDate, Quantity) VALUES
+(1,1,1,200,"2025-08-01",2),
+(2,2,2,300,"2025-08-03",5),
+(3,3,3,400,"2025-08-05",1),
+(4,4,4,500,"2025-08-06",4),
+(6,5,5,600,"2025-08-06",4);
+
+
+Insert into Branches
+values
+	(1,"Benny","Tarkwa"),
+    (2,"Goddy","Accra"),
+    (3,"Asay","Tema"),
+    (4,"Lovers","Ofoase"),
+    (5,"Tinny","Tamale");
+
+SELECT Branch_name FROM Branches;
+
+SELECT FirstName, LastName FROM Customer;
+
+SELECT EmpID, EmpName FROM Employee;
+
+SELECT p.ProductName, o.OrderID, c.FirstName, o.Quantity
+FROM Orders o
+RIGHT JOIN Product p ON o.ProductID = p.ProductID
+LEFT JOIN Customer c ON o.CustomerID = c.CustomerID;
+
+SELECT CustomerID, FirstName, LastName, City, LoyaltyPoints
+FROM Customer
+ORDER BY LoyaltyPoints DESC;
+
+SELECT OrderID, CustomerID, OrderDate
+FROM Orders
+WHERE OrderDate LIKE '2025%';
+
+SELECT Branch_id, Branch_name, Branch_location
+FROM Branches
+WHERE Branch_location LIKE 'T%';
+
+
+		
+	
+	
+
+ 
